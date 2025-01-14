@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "200155558765",
+    "project_id": "myinvoiceapp-81a7f",
+    "storage_bucket": "myinvoiceapp-81a7f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200155558765:android:648cf3aaf33423c188a064",
+        "android_client_info": {
+          "package_name": "com.officeneeds"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEQBfAyYsNDC7nhChAQW78t2TsCJc9lNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
