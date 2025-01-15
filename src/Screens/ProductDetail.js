@@ -1,7 +1,8 @@
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Header from '../common/Header';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import CustomButton from '../common/CustomButton';
 
 const ProductDetail = () => {
   const navigation = useNavigation();
@@ -22,6 +23,10 @@ const ProductDetail = () => {
         <Text style={[styles.price, {color: '#000'}]}>Price</Text>
         <Text style={styles.price}>{`$${productData?.price}`}</Text>
       </View>
+      <TouchableOpacity style={styles.wishlistBtn}> 
+        <Image source={require('../images/heart.png')} style={styles.wishlistIcon}/>
+      </TouchableOpacity>
+      <CustomButton title={"Add To Cart"} bg="#FF9A0C" color={"#FFF"} onClick={()=>{}} />
     </View>
   );
 };
@@ -58,4 +63,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '800',
   },
+  wishlistBtn:{
+    position: 'absolute',
+    right:20,
+    top:100,
+    backgroundColor:"#E2DFDF",
+    justifyContent:'center',
+    alignItems:'center',
+    width:50,
+    height:50,
+    borderRadius:25
+  },
+  wishlistIcon:{
+    width:24,
+    height:24
+  }
 });
