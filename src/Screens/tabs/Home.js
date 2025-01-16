@@ -40,6 +40,7 @@ const Home = () => {
         onClickLeftIcon={() => {
           navigation.openDrawer();
         }}
+        showCartItemsCount
       />
       <ProductList
         items={products}

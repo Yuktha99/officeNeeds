@@ -16,9 +16,10 @@ const Header = ({
   rightIcon,
   onClickLeftIcon,
   onClickRightIcon,
+  showCartItemsCount,
 }) => {
   const cartItems = useSelector(state => state.cart);
-  console.log({cartItems})
+  console.log({cartItems});
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.btn} onPress={() => onClickLeftIcon()}>
@@ -30,9 +31,11 @@ const Header = ({
           source={rightIcon}
           style={[styles.icon, {width: 40, height: 40}]}
         />
-        <View style={styles.cartItemsCount}>
-          <Text style={{color: '#000'}}>{cartItems.data.length}</Text>
-        </View>
+        {showCartItemsCount && (
+          <View style={styles.cartItemsCount}>
+            <Text style={{color: '#000'}}>{cartItems.data.length}</Text>
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );
