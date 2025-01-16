@@ -10,13 +10,14 @@ import {
 import React, {useEffect, useState} from 'react';
 import Header from '../../common/Header';
 import {useNavigation} from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { addProducts } from '../../redux/slices/ProductsSlice';
+import {useDispatch} from 'react-redux';
+import {addProducts} from '../../redux/slices/ProductsSlice';
+import ProductList from '../../common/ProductList';
 
 const Home = () => {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     getProducts();
   }, []);
@@ -26,7 +27,7 @@ const Home = () => {
       .then(res => res.json())
       .then(json => {
         setProducts(json);
-        dispatch(addProducts(json))
+        dispatch(addProducts(json));
       });
   };
 
@@ -40,32 +41,10 @@ const Home = () => {
           navigation.openDrawer();
         }}
       />
-      <FlatList
-        data={products}
-        renderItem={({item, index}) => {
-          return (
-            <TouchableOpacity
-              style={styles.productItem}
-              activeOpacity={1}
-              onPress={() => {
-                navigation.navigate('ProductDetail',{data: item})
-              }}>
-              <Image source={{uri: item?.image}} style={styles.itemImage} />
-              <View>
-                <Text style={styles.name}>
-                  {item?.title?.length > 25
-                    ? item?.title?.substring(0, 25) + '...'
-                    : item?.title}
-                </Text>
-                <Text style={styles.desc}>
-                  {item?.description?.length > 30
-                    ? item?.description?.substring(0, 30) + '...'
-                    : item?.description}
-                </Text>
-                <Text style={styles.price}>{`$${item.price}`}</Text>
-              </View>
-            </TouchableOpacity>
-          );
+      <ProductList
+        items={products}
+        onPressItem={(item) => {
+          navigation.navigate('ProductDetail', {data: item});
         }}
       />
     </View>
@@ -77,32 +56,5 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  productItem: {
-    width: Dimensions.get('window').width,
-    height: 100,
-    marginTop: 10,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  itemImage: {
-    width: 100,
-    height: 100,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: 600,
-    marginLeft: 20,
-  },
-  desc: {
-    marginLeft: 20,
-  },
-  price: {
-    marginLeft: 20,
-    color: 'green',
-    fontSize: 18,
-    fontWeight: 600,
-    marginTop: 5,
   },
 });
