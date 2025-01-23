@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
-
 const {height, width} = Dimensions.get('window');
 const Header = ({
   title,
@@ -19,14 +18,13 @@ const Header = ({
   showCartItemsCount,
 }) => {
   const cartItems = useSelector(state => state.cart);
-  console.log({cartItems});
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.btn} onPress={() => onClickLeftIcon()}>
         <Image source={leftIcon} style={styles.icon} />
       </TouchableOpacity>
       <Text>{title}</Text>
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity style={styles.btn} onPress={onClickRightIcon}>
         <Image
           source={rightIcon}
           style={[styles.icon, {width: 40, height: 40}]}

@@ -1,17 +1,26 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity, ScrollView} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import React, {useState} from 'react';
 import Header from '../common/Header';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import CustomButton from '../common/CustomButton';
 import {useDispatch} from 'react-redux';
 import {addItemToWishlist} from '../redux/slices/WishlistSlice';
-import { addItemToCart } from '../redux/slices/CartSlice';
+import {addItemToCart} from '../redux/slices/CartSlice';
 
 const ProductDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const productData = route?.params?.data;
   const dispatch = useDispatch();
+
+  const [qty, setQty] = useState(1);
   return (
     <View style={styles.container}>
       <Header
@@ -19,31 +28,58 @@ const ProductDetail = () => {
         rightIcon={require('../images/cart.png')}
         title={'Product Detail'}
         onClickLeftIcon={() => navigation.goBack()}
+        onClickRightIcon={() => navigation.navigate('Cart')}
+        showCartItemsCount
       />
       <ScrollView>
-      <Image source={{uri: productData?.image}} style={styles.banner} />
-      <Text style={styles.title}>{productData?.title}</Text>
-      <Text style={styles.desc}>{productData?.description}</Text>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={[styles.price, {color: '#000'}]}>Price</Text>
-        <Text style={styles.price}>{`$${productData?.price}`}</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.wishlistBtn}
-        onPress={() => {
-          dispatch(addItemToWishlist(route.params.data));
-        }}>
-        <Image
-          source={require('../images/heart.png')}
-          style={styles.wishlistIcon}
+        <Image source={{uri: productData?.image}} style={styles.banner} />
+        <Text style={styles.title}>{productData?.title}</Text>
+        <Text style={styles.desc}>{productData?.description}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text style={[styles.price, {color: '#000'}]}>Price</Text>
+          <Text style={styles.price}>{`$${productData?.price}`}</Text>
+          <View style={styles.qtyView}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                if (qty > 1) setQty(qty - 1);
+              }}>
+              <Text style={{fontSize: 18, fontWeight: '600'}}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.qty}>{qty}</Text>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                if (qty < 10) setQty(qty + 1);
+              }}>
+              <Text style={{fontSize: 18, fontWeight: '600'}}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <TouchableOpacity
+          style={styles.wishlistBtn}
+          onPress={() => {
+            dispatch(addItemToWishlist(route.params.data));
+          }}>
+          <Image
+            source={require('../images/heart.png')}
+            style={styles.wishlistIcon}
+          />
+        </TouchableOpacity>
+
+        <CustomButton
+          title={'Add To Cart'}
+          bg="#FF9A0C"
+          color={'#FFF'}
+          onClick={() => {
+            dispatch(addItemToCart({...route.params.data, qty}));
+          }}
         />
-      </TouchableOpacity>
-      <CustomButton
-        title={'Add To Cart'}
-        bg="#FF9A0C"
-        color={'#FFF'}
-        onClick={() => {dispatch(addItemToCart(route.params.data));}}
-      />
       </ScrollView>
     </View>
   );
@@ -95,5 +131,24 @@ const styles = StyleSheet.create({
   wishlistIcon: {
     width: 24,
     height: 24,
+  },
+  qtyView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    marginRight: 20,
+  },
+  btn: {
+    alignItems: 'center',
+    borderWidth: 0.5,
+    padding: 5,
+    width: 30,
+    justifyContent: 'center',
+    borderRadius: 2,
+    marginLeft: 10,
+  },
+  qty: {
+    marginLeft: 10,
+    fontSize: 18,
   },
 });
